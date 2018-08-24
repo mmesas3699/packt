@@ -36,3 +36,4 @@ de paquetes C/C++ dentro de Python. Para solucionar este caso en Ubuntu:
 
 	$ sudo apt-get install python3-dev
 
+48af139
