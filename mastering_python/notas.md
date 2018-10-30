@@ -44,11 +44,11 @@ de paquetes C/C++ dentro de Python. Para solucionar este caso en Ubuntu:
 El desarrollo de Python siempre ha estado en manos de su creador Guido van Rossum, quien es llamado
 Benevolent Dictator For Life (BDFL).
 
-Para ayudar al DBFL en el mantenimiento y desarrollo de Python se creo el proceso: **Python Enhancement Proposal (PEP)**
-(Propuesta de mejora de Python). Este proceso permite a cualquier persona enviar un PEP con una
-especificación técnica de la característica y una justificación para defender su utilidad.
-Después de una discusión sobre las listas de correo de Python y posiblemente algunas mejoras,
-la BDFL tomará la decisión de aceptar o rechazar la propuesta.
+Para ayudar al DBFL en el mantenimiento y desarrollo de Python se creo el proceso: 
+**Python Enhancement Proposal (PEP)** (Propuesta de mejora de Python). Este proceso permite a
+cualquier persona enviar un PEP con una especificación técnica de la característica y una
+justificación para defender su utilidad. Después de una discusión sobre las listas de correo de
+Python y posiblemente algunas mejoras, la BDFL tomará la decisión de aceptar o rechazar la propuesta.
 
 #### Code style – or what is Pythonic code?
 
@@ -72,29 +72,31 @@ y
 En general la mayoria de las personas recomiendan *str.format*, pero esto esta sujeto a las preferencias
 de cada persona. *printf-style* es mas simple, pero *str.format* es mas poderoso.
 
-**Para aprender más acerca de PyFormat visitar https://pyformat.info/**
+- Para aprender más acerca de PyFormat visitar https://pyformat.info/
 
 #### PEP20, the Zen of Python
+
+---------------------- * -----------------
 
 #### Maximum line length
 
 Para mantener la regla de los 79 caracteres hay que pensar en refactorizar el código de forma que se vea mejor
 y de una forma más 'pythonic'. Ejemplos:
 
-- Usando el backslash:
+Usando el backslash:
 
 	with open('/path/to/some/file/you/want/to/read') as file_1, \
         	open('/path/to/some/file/being/written', 'w') as file_2:
     	file_2.write(file_1.read())
 
-- En lugar de backslash:
+En lugar de backslash:
 
 	filename_1 = '/path/to/some/file/you/want/to/read'
 	filename_2 = '/path/to/some/file/being/written'
 	with open(filename_1) as file_1, open(filename_2, 'w') as file_2:
     	file_2.write(file_1.read())
 
-- O puede ser:
+O puede ser:
 
 	filename_1 = '/path/to/some/file/you/want/to/read'
 	filename_2 = '/path/to/some/file/being/written'
@@ -158,6 +160,7 @@ La forma segura es la siguiente:
         list_.append(value)
         dict_[key] = value
 
+
 #### Class properties (Propiedades de Clase)
 
 El problema ocurre cuando se definen clases. Es muy facil mezclar los atributos de clase con los
@@ -208,7 +211,9 @@ Aunque esto es lo esperado debido a al herencia, una persona que use esta clase 
 cambie, ya que se modifico A y no B.
 
 Hay dos maneras de solucionar esto:
+
 1. La más obvia es modificar la propiedad _spam_ para cada clase.
+
 2. **Una mejor solucón es nunca modificar las propiedades de clase**. Es muy facil olvidar que una propiedad
 cambión e multiples ubicaciones, y si esta de todas formas debe cambiar lo mejor es usar variables de
 instancia.
@@ -247,11 +252,11 @@ La palabra reservada **global** permite modificar una varible fuera del scope ac
 una variable global y poder modificarla en un contexto local.
 
 Reglas del keyword **global**:
-	1. Cuando se crea un variable dentro de una función, esta es local por defecto.
-	2. Cuando se define una variable fuera de una función esta es global por defecto. No es necesario usar
-	el keyword **global**.
-	3. Se usa **global** para leer y escribir sobre una varible global dentro de una función.
-	4. Usar **global** fuera de una función no tiene efecto.
+1. Cuando se crea un variable dentro de una función, esta es local por defecto.
+2. Cuando se define una variable fuera de una función esta es global por defecto. No es necesario usar
+el keyword **global**.
+3. Se usa **global** para leer y escribir sobre una varible global dentro de una función.
+4. Usar **global** fuera de una función no tiene efecto.
 
 Ejemplo:
 
@@ -395,4 +400,219 @@ imports dentro de las funciones que los usan. (Ver **eggs3.py** y **spam3.py**)
 ### Import collisions
 
 --------- * ---------------
+
+## Chapter 3. Containers and Collections – Storing Data the Right Way
+
+Python viene con muchas colecciones muy útiles, algunas de las cuales son tipos básicos de Python,
+el resto son combinaciones avanzadas de estos tipos.
+
+1. Estructuras básicas de datos:
+	- list
+	- dict
+	- set
+    - tuple
+
+2. Colecciones mas avanzadas:
+* Tipos de diccionarios
+	- ChainMap
+	- Counter
+	- DefaultDict
+	- OrderedDict
+
+* Tipos de listas
+	- Deque
+	- Heapq
+
+* Tipos de tuplas
+	- NamedTuple
+
+* Tipos Ordenados
+	- Enum
+
+### Time complexity - The big O notation
+
+La notación Big O se refiere a la cantidad de pasos que le toma a una función ser ejecutada.
+
+Cuando se dice que una función toma **O(1)**, quiere decir que en general solo le toma un paso para
+ser ejecutada. Igualmente una función con **O(n)** quiere decir que le toma **n** pasos para ser
+ejecutada, donde generalmente **n** es el tamaño o lardo del objeto.
+
+El proposito de este sistema es es indicar el rendimiento aproximado de una operación, esto no tiene
+que ver con la velocidad de ejecución pero es muy relevante al momento de elegir un algoritmo para
+trabajar (hay que comprobar la notación Big O para cada algoritmo)
+
+Para ilustrar **O(1)**, **O(n)** y **O(n\*\*2)**, ver: big_o.py
+
+### Core Collections
+
+#### list – a mutable list of items
+
+Las listas son un tipo de colección muy simple de usar y que en general ofrecen un buen rendimiento.
+
+Ahora, hablando del BigO muchos de los métodos de las listas ofrecen un **O(1)**: **append**,
+**get**, **set** y **len**. Pero otros como **remove** e **insert** toman un **O(n)**.
+
+Ejemplo:
+Para eliminar un elemento de una lista de 100 elementos, Python tiene que recorrer los mil elementos.
+
+**Lo que hacen los métodos _remove_ e _insert_ es crear una copia de la lista entera en la cual se van
+insertando los datos uno a uno según se cumpla la condición. Por ejemplo en el caso de _remove_ 
+cuando encuentre el item a remover no lo insertará y continuará con los otros.** (Ver list_insert_remove.py
+para ver el comportamiento detallado)
+
+Eliminar un solo elemento no tiene ningún problema, el inconveniente surge cuando se desean eliminar
+varios elementos a la vez. Para este caso lo mejor es usar: **filter** o un **list comprehension**, ya
+que si están bien estructurados solo necesitan copiar la lista una vez:
+
+	>>> primes = set((1, 2, 3, 5, 7))
+
+	# Classic solution
+	>>> items = list(range(10))
+	>>> for prime in primes:
+	...     items.remove(prime)
+	>>> items
+	[0, 4, 6, 8, 9]
+
+	# List comprehension
+	>>> items = list(range(10))
+	>>> [item for item in items if item not in primes]
+	[0, 4, 6, 8, 9]
+
+	# Filter
+	>>> items = list(range(10))
+	>>> list(filter(lambda item: item not in primes, items))
+	[0, 4, 6, 8, 9]
+
+#### dict - unsorted but a fast map of items
+
+Los diccionarios se encuentran en le top 3 de los contenedores principales de se usan en Python.
+El BigO es de: **O(1)** para: **get**, **set** y **del**.
+
+
+#### set - like a dict without values
+Un **set** es una estructura que usa un método hash para obtener una colección única de valores.
+Internamente es similar a un **dict**. Pero tiene algunas diferencias.
+
+Para crear un objeto **set**:
+
+	>>> set_ = set('eggs')
+	>>> set_
+	{'e', 'g', 's'}  # Los set no admiten valores repetidos
+
+**Consultar las operaciones de objetos set**
+![Operaciones de set](operaciones_sets.png)
+
+Un ejemplo de uso de un **set** es calcular la diferencia entre dos objetos. Ver: ejemplo_set.py
+
+#### tuple - the immutable list
+
+En python una tupla es un objeto inmutable, como una lista pero sus elementos no se pueden modificar
+una vez creada la tupla.
+
+### Advanced collections
+
+Estas colecciones son, mas que nada, una extensión de las colecciones base, alguna muy simples, otras más complejas.
+
+#### ChainMap – the list of dictionaries
+
+La clase ChainMap maneja una secuencia de diccionarios y busca en el orden en que se encuentran para encontrar los valores asociados a las claves.
+
+##### Accesing Values
+
+ChainMap soporta la misma API de un diccionario regular para acceder a los valores existentes. (Ver chainmap_read.py)
+
+#### counter – keeping track of the most occurring elements
+
+**Counter** es una subclase de **dict** para contar objeto hashebles. Es una colección desordenada donde
+los elementos se almacenan como claves de diccionario y sus cantidades se almacenan como valores de
+diccionario. Se permite que las cantidades sean cualquier valor entero incluyendo cero o valores negativos.
+
+**Crear un objeto Counter**
+Los elementos se cuentan desde un iterable o se pueden inicializar desde otro mapeo (o contador):
+
+	>>> c = Counter()                           # a new, empty counter
+	>>> c = Counter('gallahad')                 # a new counter from an iterable
+	>>> c = Counter({'red': 4, 'blue': 2})      # a new counter from a mapping
+	>>> c = Counter(cats=4, dogs=8)             # a new counter from keyword args
+
+**Diferencias con los diccionarios**
+Los objetos **Counter** tienen una interfaz como la de un diccionario, excepto que se retorna 0 para
+elementos que se no se encuentran en lugar de una KeyError:
+
+	>>> c = Counter(['eggs', 'ham'])
+	>>> c['bacon']                              # count of a missing element is zero
+	0
+
+**Eliminar un elemento de un objeto Counter**
+Asignar un valor 0 a un elemento de un **Counter** no lo elimina, para eliminar un elemento use **del**
+
+	>>> c['sausage'] = 0    # counter entry with a zero count
+	>>> del c['sausage']    # del actually removes the entry
+
+## Chapter 4. Functional Programming – Readability Versus Brevity
+
+### Functional Programming
+
+Es un paradigma que se origina a partir del calculo lambda. Esto significa que el calculo se realiza
+mediante el uso de funciones matemáticas, lo que evita datos mutables y cambios en el estado del entorno.
+
+La idea de un lenguaje estrictamente funcional es que la salida de las funciones dependen exclusivamente
+de su entrada y no de un estado externo. 
+
+Fuera de la programación funcional, esta es una buena idea. Mantener las funciones puramente funcionales
+(confiar solo en la entrada dada) hace que el código sea más claro, más fácil de entender y mejor para
+probar ya que hay menos dependencias.
+
+Algunos ejemplos en Python se pueden encontrar en el módulo **math**, con las funciones (**sin**, **con**,
+**pow**, **sqrt** y más.), estas funciones reciben una entrada y su salida depende exclusivamente de
+esa entrada.
+
+### list comprehensions
+
+### dict comprehensions
+
+Los **dict** comprehensions son muy similares a los **list** comprehensions, pero en este caso el
+resultado es un diccionario. La única diferencia es que es necesario retornar las claves y los valores.
+
+Ejemplo:
+
+	>>> {x: x ** 2 for x in range(10)}
+	{0: 0, 1: 1, 2: 4, 3: 9, 4: 16, 5: 25, 6: 36, 7: 49, 8: 64, 9: 81}
+
+	>>> {x: x ** 2 for x in range(10) if x % 2}
+	{1: 1, 3: 9, 9: 81, 5: 25, 7: 49}
+
+### set comprehensions
+
+Así como se puede crear un **set** usando llaves {}, también es posibles crear **set comprehensions**, usando una sintaxis similar a las listas.
+
+	>>> [x*y for x in range(3) for y in range(3)]
+	[0, 0, 0, 0, 1, 2, 0, 2, 4]
+
+	>>> {x*y for x in range(3) for y in range(3)}
+	{0, 1, 2, 4}
+
+
+	>>> x = lambda a, b : a * b
+	>>> print(x(5, 6))
+	30
+
+### lambda functions
+
+La sentencia lambda es Python es simplemente una función anómina. Debido a la sintaxis es un poco más
+limitada que una función regular.
+
+Sintaxis:
+
+	lambda a: a+ b
+
+Una función lambda puede tener cualquier número de argumentos, pero solo una expresión.
+
+Ejemplo:
+
+	>>> x = lambda a: a+ 10
+	>>> print(x(5))
+	15
+
+### functools
 
