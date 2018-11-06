@@ -616,3 +616,16 @@ Ejemplo:
 
 ### functools
 
+Python contiene algunas funciones avanzadas que puedes ser utiles cuando se programa funcionalmente,
+la libreria _functools_ es una colección de funciones que retornan objetos llamables, algunas de estas
+funciones se puede usar como decoradores.
+
+### itertools
+
+Es una libreria que contiene funciones iterables inspiradas en las que contienen los lenguajes
+funcionales. Estas funciones se han creado de tal forma que usan poca memoria incluso con sets
+de datos muy grandes.
+
+Aunque es posible crear la mayoria de estas funciones por cuenta propia, se recomienda el uso de
+estas porque son rapidas, eficientes en memoria y lo más importante han sido probadas.
+
