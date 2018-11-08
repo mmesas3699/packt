@@ -629,3 +629,49 @@ de datos muy grandes.
 Aunque es posible crear la mayoria de estas funciones por cuenta propia, se recomienda el uso de
 estas porque son rapidas, eficientes en memoria y lo más importante han sido probadas.
 
+
+## Capitulo 5. Decoradores – Habilitando la reutilización de código por decoración.
+
+Los decoradores son esencialmente envoltorios de funciones/clases que se pueden usar para modificar la entrada, la salida o incluso la función/clase antes de ejecutarlos.
+
+Aunque se puede vivir sin saber mucho de decoradores, estos proveen un gran poder de re uso y se usan mucho en los frameworks web.
+
+### Decorando Funciones
+
+Esencialmente una función no es más que una función o clase envoltorio.
+
+Ejemplo:
+
+Se tiene una función _spam_ y un decorador _eggs_, entonces el siguiente código envuelve _spam_ con
+_eggs_.
+
+	spam = eggs(spam)
+
+Para hacer la sintaxis más facil de leer Python usa el operador _@_.
+
+	@eggs
+	def spam():
+	    pass
+
+Para ver otro ejemplo: capitulo5/decorando_funciones.py
+
+Un decorador simplemente recibe una función y retorna una función (usualmente diferente).
+
+### Decorando funciones de clase
+
+Decorar funciones de clase es muy similar a las funciones regulares. Lo importante es tener cuidado
+con el argumento _self_.
+
+**Investigar los decoradores:**
+- classmethod
+- staticmethod
+- property
+
+### Decorando Clases
+
+....
+
+### Decoradores Utiles
+
+....
+
