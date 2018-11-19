@@ -675,3 +675,291 @@ con el argumento _self_.
 
 ....
 
+
+## Capítulo 6. Generadores y Coroutines - Infinito, un paso a la vez
+
+Un _generador_ es un tipo especifico de iterador que genera valores atravez de una función.
+
+Mientras que los métodos tradicionales construyen y retornan una lista, un generador simplemente
+produce (yield) cada valor separadamente en el momento en que es solicitado.
+
+Algunos beneficios de los generadores:
+- Pausan la ejecución completamente hasta que el siguiente valor es producido. Si se obtienen cinco
+elementos de un generador, solo se generan cinco, por lo que no es necesario ningún otro calculo.
+
+- No necesita guardar los valores. Mientras una función tradicional requiere crear una lista y
+guardar los resultados para poderlos mostrar, el generador solo necesita guardar un valor.
+
+- Los generadores pueden tener un tamaño infinito no hay ningún requisito para detenerse en algún
+punto.
+
+El resultado de tener los anteriores beneficios generan ciertas desventajas:
+
+- Mientras se realiza el proceso, no se sabe cuantos valores quedan, pueden ser infinitos. Esto
+puede generar inconvenientes, ya que ejecutar _list(some_infinite_generator)_ puede romper la 
+memoria.
+
+- No se puede hacer slice a los generadores.
+
+- No se puede obtener cierto item sin generar antes todos los items antes de este indice.
+
+- No se puede reiniciar un generador. Todos lo valores se generan una sola vez.
+
+Una _corrutina_ es una función que permite realizar multiples tareas sin necesidad de multiples
+procesos o subprocesos.
+
+### ¿Que son los generadores?
+
+En su forma más simple un generador es una función que retorna elementos uno a la vez, en lugar
+de retornar una colección de estos (listas).
+
+Su ventaja más importante es que requieren muy poca memoria y no se necesita un tamaño predefinido.
+
+### Como funciona?
+
+Es un loop _for_ normal, la diferencia es que el método regular retorna una lista y la sentencia
+_yield_ retorna un valor a la vez.
+
+Algo importante a notar es que la sentencia _return_ resulta en una excepción _StopIteration_ y
+cualquier cosa pasada a _return_ se convertirá en argumento de esta excepción.
+
+Ver: capitulo6/what_is_generator.py
+
+## Capitulo 10. Testing and Logging - Preparing for Bugs.
+
+La instalación estandar de Python contiene los modulos: **doctest**, **unittest** y **test**.
+
+**doctest**: este módulo permite combinar pruebas con documentación de ejemplo.
+
+**unittest**: este módulo permite escribir pruebas de regresión.
+
+**test**: este módulo es solo para uso interno de Python.
+
+### Testing with py.test
+
+Instalar:
+
+	$ pip install pytest
+
+
+#### Diferencia entre unittest y pytest output
+
+Ver: capitulo10/cube.py
+
+El archivo de las pruebas está en: capitulo10/test_cube.py
+
+Para ver los resultados atravez de _unittest_:
+
+	# python test_cube.py -v
+
+Para ver los resultados atravez de _pytest_:
+
+	# py.test -v test_cube.py
+
+Para ver los resultados con errores, cambiar el código en _cube.py_ para que eleve a la 2: _n\*\*2_
+y ejecutar las pruebas.
+
+### Logging
+
+Los objetos mas importantes de este modulo son:
+
+- Logger: La interfaz del módulo.
+- Handle: Procesa las sentencias del log y sus salidas.
+- Formatter: Formatea los datos de entrada en una cadena.
+- Filter: Permite el filtrado de ciertos mensajes.
+
+Dentro de estos objetos, se puede setear los valores del logging a uno de los siguientes niveles:
+
+	CRITICAL:   50
+	ERROR:      40
+	WARNING:    30
+	INFO:       20
+	DEBUG:      10
+	NOTSET:      0
+
+##### Configuración
+
+Hay muchas formas de configurar el sistema de loggeo, desde código puro a archivos JSON, o incluso
+configuración remota.
+
+## Capitulo 11: Debugging
+
+El mayor inconveniente simpres son los inputs de los usuarios, ya que simplemente es imposible
+probar todas las entradas posibles, lo que implica que, en un punto, tendremos que depurar el
+código.
+
+### Non-interactive debugging
+...
+
+### Interactive debugging
+
+Es posible abrir una consola interactiva cuando se ejecuta código de Python.
+
+#### Console on demand
+
+Ver: capitulo11/text_code.py
+
+Algo importante a tener en cuenta es que no se comparte el scope entre el código que se está
+ejecutando y la consola que se abre. Aunque podemos ver las variables del código, tambien podemos
+modificarlas desde la consola y este no afecta realmente al código.
+
+### Debugging using pdb
+
+Ver: capitulo11/test_pdb.py
+
+Cuando se usa  _pdb_ al modificar las variables del código, al contrario de la sección anterior, si
+afecta al código.
+
+En el script de ejemplo se puede ver el comando _continue_ que continua ejecutando el código despues
+del breakpoint.
+
+Los comandos de _pdb_ se pueden abreviar por ejemplo _c_ hace lo mismo que _continue_.
+
+Lista de los comandos:
+<table style="font-size: 14px;">
+	<tbody style="font-family: courier;">
+		<tr>
+			<td style="color: red;">h(elp)</td>
+			<td>Muestra la lista de comandos (esta lista).</td>				
+		</tr>
+		<tr>
+			<td style="color: red;">h(elp) command</td>
+			<td>Muestra ayuda para el comando dado.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">w(here)</td>
+			<td>Rastrea la pila actual con una flecha en el cuadro actual.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">d(own)</td>
+			<td>Se mueve hacia abajo/otro frame en el stack.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">u(p)</td>
+			<td>Se mueve hacia arriba/frame en el stack.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">s(tep)</td>
+			<td>Ejecuta la linea actual y la detiene tan pronto es posible.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">n(ext)</td>
+			<td>Ejecuta la linea actual y se detiene en la siguiente linea dentro de la función actual.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">r(eturn)</td>
+			<td>Continua la ejecución hasta que la función haga un return.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">c(ont(inue))</td>
+			<td>Continua la ejecución hasta el siguiente breakpoint.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">l(ist) [first[, last]]</td>
+			<td>Genera una lista de lineas del código fuente que están alrededor de la linea actual. (Por defecto 11 lineas).</td>
+		</tr>
+		<tr>
+			<td style="color: red;">ll | longlist</td>
+			<td>Genera una lista de todo el código fuente alrededor de la función actual o frame.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">source expression</td>
+			<td>Lista todo el código fuente para un objeto dado. Es similar a longlist.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">a(rgs)</td>
+			<td>Imprime los argumentos de la función actual.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">pp expression</td>
+			<td>Pretty-print la expresión dada.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">b(reak)</td>
+			<td>Muestra una lista de los breakpoints.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">b(reak) [filename] lineno</td>
+			<td>Coloca un breakpoint en el número de linea dado, y opcionalmente el archivo.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">b(reak) function[, condition]</td>
+			<td>Coloca un breakpoint en la función dada. La condición es una expresión que debe ser <b style="color: red;">True</b> para que el breakpoint funcione.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">cl(ear) [filename:]lineno</td>
+			<td>Limpia el breakpoint (o breakpoints) en la linea dada.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">cl(ear) breakpoint [breakpoint ...]</td>
+			<td>Limpia el breakpoint (o breakpoints) con el número dado.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">Command</td>
+			<td>Lista todos los comandos definidos.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">command breakpoint</td>
+			<td>Especifica una lista de comandos a ejecutar donde sea que ocurra el breakpoint dado. La lista termina usando el comando <b style="color: red;">end</b>.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">Alias</td>
+			<td>Lista todos los alias.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">alias name command</td>
+			<td>Crea un alias. El comando puede ser cualquier expresión valida de Python.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">unalias name</td>
+			<td>Borra un alias.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">! statement</td>
+			<td>Ejecuta la sentencia en el punto actual del stack. Normalmente no es necesario <b style="color: red;">!</b> pero es útil en los casos en que se pueda presentar ambigüedad con los comandos nativos: b = 123.</td>
+		</tr>
+		<tr>
+			<td style="color: red;">Interact</td>
+			<td>Abre una sesión interactiva. Note que las variables setiadas dentro del scope local no serán transferidas.</td>
+		</tr>
+	</tbody>
+</table>
+
+
+### Debugging using ipdb
+
+	# pip install ipdb
+
+Para usar ipdb
+
+	import ipdb
+
+	.....
+	if __name__ == '__main__':
+	    ipdb.set_trace()
+
+Con _ipdb_ los comandos son los mismos pero la salida es más legible.
+
+### Other debuggers
+
+Existen otros depuradores que pueden ser usados.
+
+**pudb:** Ofrece un depurador de línea de comandos o pantalla completa.
+
+**pdbpp:** Hooks en el pdb regular.
+
+**ipdb2:** Es un debugger remoto, que puede correr en aplicaciones remotas.
+
+**werkzeug:** Es un depurador basado en web que permite la depuración de aplicaciones web
+mientras se están ejecutando.
+
+### Debugging services:
+
+Se pueden usar servicios de depuración para capturar los errores y enviarlos por correo si no es
+necesario depurarlos inmediatamente.
+
+Ejemplo: _sentry_, _Opbeat_ y _Newrelic_.
+
+## Capitulo 12: Performanace - Tracking and Reducing your memory and CPU usage.
+
+**ESTE LIBRO CONTIENE TEMAS MAS AVANZADOS QUE REVISARE MAS ADELANTE.**
